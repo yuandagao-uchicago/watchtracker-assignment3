@@ -73,11 +73,43 @@ html[data-theme="light"] .placeholder-white\/40::placeholder { color: rgba(0,0,0
 html[data-theme="light"] .shadow-black\/50 { --tw-shadow-color: rgba(0,0,0,0.1) !important; }
 html[data-theme="light"] .shadow-black\/80 { --tw-shadow-color: rgba(0,0,0,0.15) !important; }
 
-html[data-theme="light"] .bg-gradient-to-t { --tw-gradient-from: #f5f5f5 !important; }
-html[data-theme="light"] .bg-gradient-to-b { --tw-gradient-from: #f5f5f5 !important; }
-
 html[data-theme="light"] ::-webkit-scrollbar-thumb { background: #dc2626; }
 html[data-theme="light"] select { background: #f0f0f0 !important; color: #333 !important; }
+
+/* Hero / gradient sections in light mode */
+html[data-theme="light"] .bg-gradient-to-t.from-black { --tw-gradient-from: #f5f5f5 !important; --tw-gradient-via: rgba(245,245,245,0.8) !important; }
+html[data-theme="light"] .bg-gradient-to-r.from-black { --tw-gradient-from: rgba(245,245,245,0.9) !important; }
+html[data-theme="light"] .bg-gradient-to-b.from-black\/60 { --tw-gradient-from: rgba(245,245,245,0.6) !important; }
+html[data-theme="light"] .via-black\/80 { --tw-gradient-via: rgba(245,245,245,0.8) !important; }
+html[data-theme="light"] .via-black\/70 { --tw-gradient-via: rgba(245,245,245,0.7) !important; }
+html[data-theme="light"] .via-black\/40 { --tw-gradient-via: rgba(245,245,245,0.4) !important; }
+html[data-theme="light"] .to-black\/40 { --tw-gradient-to: rgba(245,245,245,0.4) !important; }
+html[data-theme="light"] .to-black\/30 { --tw-gradient-to: rgba(245,245,245,0.3) !important; }
+html[data-theme="light"] .to-black { --tw-gradient-to: #f5f5f5 !important; }
+html[data-theme="light"] .from-black\/90 { --tw-gradient-from: rgba(245,245,245,0.9) !important; }
+html[data-theme="light"] .from-black { --tw-gradient-from: #f5f5f5 !important; }
+
+/* Poster image overlays need to stay dark so text on them is readable */
+html[data-theme="light"] .aspect-\[2\/3\] .bg-gradient-to-t { --tw-gradient-from: rgba(0,0,0,0.85) !important; --tw-gradient-via: rgba(0,0,0,0.2) !important; }
+html[data-theme="light"] .aspect-\[2\/3\] .text-white { color: #ffffff !important; }
+html[data-theme="light"] .aspect-\[2\/3\] .text-white\/40 { color: rgba(255,255,255,0.5) !important; }
+
+/* White text inside poster cards should stay white */
+html[data-theme="light"] .card-glow .text-white { color: #ffffff !important; }
+html[data-theme="light"] .card-glow .text-white\/40 { color: rgba(255,255,255,0.5) !important; }
+
+/* Hero poster blur should be lighter */
+html[data-theme="light"] .blur-sm { opacity: 0.08 !important; }
+html[data-theme="light"] .blur-md { opacity: 0.1 !important; }
+
+/* Stats strip numbers stay colored */
+html[data-theme="light"] .text-watching { color: #f59e0b !important; }
+html[data-theme="light"] .text-completed { color: #dc2626 !important; }
+html[data-theme="light"] .text-dropped { color: #525252 !important; }
+html[data-theme="light"] .text-primary { color: #dc2626 !important; }
+html[data-theme="light"] .text-accent { color: #f59e0b !important; }
+html[data-theme="light"] .bg-primary { background: #dc2626 !important; }
+html[data-theme="light"] .bg-primary .text-white { color: #ffffff !important; }
 
 h1, h2, h3 {
   font-family: var(--font-heading), Impact, sans-serif;
