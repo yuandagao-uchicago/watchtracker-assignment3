@@ -6,6 +6,7 @@ import StatusBadge from "@/components/watchlist/StatusBadge";
 import ShowDetailClient from "./ShowDetailClient";
 import WatchProviders from "@/components/watchlist/WatchProviders";
 import CommentsSection from "@/components/watchlist/CommentsSection";
+import TrailerButton from "@/components/watchlist/TrailerButton";
 
 export default async function ShowDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -98,6 +99,12 @@ export default async function ShowDetailPage({ params }: { params: Promise<{ id:
 
               {item.synopsis && (
                 <p className="text-white/40 leading-relaxed mt-6 max-w-xl">{item.synopsis}</p>
+              )}
+
+              {item.tmdbId && (
+                <div className="mt-6">
+                  <TrailerButton tmdbId={item.tmdbId} mediaType={item.mediaType} />
+                </div>
               )}
             </div>
           </div>
