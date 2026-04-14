@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { createItem } from "@/app/actions/watchlist";
 import { useLocale } from "@/lib/i18n/LocaleContext";
+import { useToast } from "@/lib/ToastContext";
 
 interface TmdbResult {
   id: number;
@@ -25,6 +26,7 @@ export default function SearchPage() {
   const [searched, setSearched] = useState(false);
   const [savingId, setSavingId] = useState<number | null>(null);
   const [savedIds, setSavedIds] = useState<Set<number>>(new Set());
+  const { toast } = useToast();
 
   const handleSearch = useCallback(async () => {
     if (!query.trim()) return;
@@ -60,8 +62,9 @@ export default function SearchPage() {
         tmdbId: item.id,
       });
       setSavedIds((prev) => new Set([...prev, item.id]));
+      toast(`"${item.title}" saved to watchlist!`);
     } catch {
-      // ignore duplicate errors
+      toast("Already in your watchlist", "info");
     } finally {
       setSavingId(null);
     }

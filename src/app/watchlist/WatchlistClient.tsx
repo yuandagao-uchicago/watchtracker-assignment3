@@ -6,6 +6,7 @@ import { WatchItem, WatchStatus, MediaType } from "@/types";
 import WatchCard from "@/components/watchlist/WatchCard";
 import { useLocale } from "@/lib/i18n/LocaleContext";
 import { generateShareLink, revokeShareLink } from "@/app/actions/share";
+import { useToast } from "@/lib/ToastContext";
 
 const statusFilters: ("all" | WatchStatus)[] = [
   "all", "watching", "completed", "plan_to_watch", "dropped",
@@ -20,6 +21,7 @@ export default function WatchlistClient({ items }: { items: WatchItem[] }) {
   const [shareToken, setShareToken] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
 
   const filtered = items.filter((item) => {
     if (statusFilter !== "all" && item.status !== statusFilter) return false;
@@ -48,6 +50,7 @@ export default function WatchlistClient({ items }: { items: WatchItem[] }) {
     const url = `${window.location.origin}/share/${shareToken}`;
     navigator.clipboard.writeText(url);
     setCopied(true);
+    toast("Link copied to clipboard!");
     setTimeout(() => setCopied(false), 2000);
   };
 

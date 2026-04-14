@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import { WatchItem, WatchStatus } from "@/types";
 import { updateStatus, setRating, setReview, deleteItem } from "@/app/actions/watchlist";
 import { useLocale } from "@/lib/i18n/LocaleContext";
+import { useToast } from "@/lib/ToastContext";
 
 export default function ShowDetailClient({ item }: { item: WatchItem }) {
   const { t } = useLocale();
+  const { toast } = useToast();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [reviewText, setReviewText] = useState(item.review || "");
@@ -16,6 +18,7 @@ export default function ShowDetailClient({ item }: { item: WatchItem }) {
   const handleStatusChange = (status: WatchStatus) => {
     startTransition(async () => {
       await updateStatus(item.id, status);
+      toast(`Status updated to ${t.statuses[status]}`);
       router.refresh();
     });
   };
@@ -23,6 +26,7 @@ export default function ShowDetailClient({ item }: { item: WatchItem }) {
   const handleRating = (rating: number) => {
     startTransition(async () => {
       await setRating(item.id, rating);
+      toast(`Rated ${rating}/10`);
       router.refresh();
     });
   };
@@ -31,6 +35,7 @@ export default function ShowDetailClient({ item }: { item: WatchItem }) {
     startTransition(async () => {
       await setReview(item.id, reviewText);
       setIsEditingReview(false);
+      toast("Review saved!");
       router.refresh();
     });
   };
@@ -38,6 +43,7 @@ export default function ShowDetailClient({ item }: { item: WatchItem }) {
   const handleDelete = () => {
     startTransition(async () => {
       await deleteItem(item.id);
+      toast("Removed from watchlist", "info");
       router.push("/watchlist");
     });
   };
