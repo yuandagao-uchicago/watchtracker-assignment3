@@ -10,6 +10,7 @@ import {
 } from "@clerk/nextjs";
 import { useLocale } from "@/lib/i18n/LocaleContext";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -64,6 +65,7 @@ export default function Navbar() {
 
           {/* Auth + language controls (desktop) */}
           <div className="hidden md:flex items-center gap-3 pl-4 ml-2 border-l border-white/10">
+            <ThemeToggle />
             <LanguageSwitcher />
             <SignedOut>
               <Link href="/sign-in" className="text-[13px] tracking-widest text-white/60 hover:text-white transition-colors">
@@ -123,6 +125,7 @@ export default function Navbar() {
               );
             })}
             <div className="px-4 py-3 border-t border-white/5 mt-2 flex items-center gap-3">
+              <ThemeToggle />
               <LanguageSwitcher />
               <SignedOut>
                 <Link href="/sign-in" className="text-sm tracking-widest text-white/60 hover:text-white">
