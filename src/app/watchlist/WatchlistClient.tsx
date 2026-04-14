@@ -17,18 +17,29 @@ export default function WatchlistClient({ items }: { items: WatchItem[] }) {
   const [statusFilter, setStatusFilter] = useState<"all" | WatchStatus>("all");
   const [typeFilter, setTypeFilter] = useState<"all" | MediaType>("all");
   const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState<"recent" | "rating" | "year" | "title">("recent");
   const [shareOpen, setShareOpen] = useState(false);
   const [shareToken, setShareToken] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
 
-  const filtered = items.filter((item) => {
-    if (statusFilter !== "all" && item.status !== statusFilter) return false;
-    if (typeFilter !== "all" && item.mediaType !== typeFilter) return false;
-    if (search && !item.title.toLowerCase().includes(search.toLowerCase())) return false;
-    return true;
-  });
+  const filtered = items
+    .filter((item) => {
+      if (statusFilter !== "all" && item.status !== statusFilter) return false;
+      if (typeFilter !== "all" && item.mediaType !== typeFilter) return false;
+      if (search && !item.title.toLowerCase().includes(search.toLowerCase())) return false;
+      return true;
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case "rating": return (b.rating ?? 0) - (a.rating ?? 0);
+        case "year": return b.year - a.year;
+        case "title": return a.title.localeCompare(b.title);
+        case "recent":
+        default: return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+      }
+    });
 
   const handleGenerateLink = () => {
     startTransition(async () => {
@@ -139,13 +150,28 @@ export default function WatchlistClient({ items }: { items: WatchItem[] }) {
 
       {/* Filters */}
       <div className="space-y-4 no-print">
-        <input
-          type="text"
-          placeholder={t.watchlist.searchPlaceholder}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full sm:w-72 bg-transparent border-b border-white/10 focus:border-primary px-0 py-2 text-sm tracking-widest placeholder-white/40 focus:outline-none transition-colors"
-        />
+        <div className="flex flex-wrap items-end gap-4">
+          <input
+            type="text"
+            placeholder={t.watchlist.searchPlaceholder}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full sm:w-72 bg-transparent border-b border-white/10 focus:border-primary px-0 py-2 text-sm tracking-widest placeholder-white/40 focus:outline-none transition-colors"
+          />
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] tracking-[0.3em] text-white/40">SORT</span>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+              className="bg-surface border border-white/10 px-3 py-2 text-[11px] tracking-wider text-white/60 focus:outline-none focus:border-primary/30"
+            >
+              <option value="recent">RECENT</option>
+              <option value="rating">RATING</option>
+              <option value="year">YEAR</option>
+              <option value="title">TITLE A-Z</option>
+            </select>
+          </div>
+        </div>
 
         <div className="flex flex-wrap gap-px">
           {statusFilters.map((s) => (
